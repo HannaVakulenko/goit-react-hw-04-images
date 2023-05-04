@@ -72,7 +72,7 @@ export const App = () => {
       </Header>
       <Section>
         {!searchText && (
-          <h2 style={{ textAlign: 'center', marginTop: '25%' }}>
+          <h2 style={{ textAlign: 'center', marginTop: '36px' }}>
             Let's try to find the image according to your request
           </h2>
         )}
