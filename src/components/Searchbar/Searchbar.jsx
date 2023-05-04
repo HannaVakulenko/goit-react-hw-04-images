@@ -1,49 +1,48 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { SearchForm, SearchButton, SearchInput } from './Searchbar.styled';
 import { BsSearch } from 'react-icons/bs';
 import { toast } from 'react-hot-toast';
+import PropTypes from 'prop-types';
 
-export class Searchbar extends Component {
-  state = {
-    searchValue: '',
-  };
+export const Searchbar = ({ onSubmit }) => {
+  const [searchValue, setSearchValue] = useState('');
 
-  onChangeInput = e => {
+  const onChangeInput = e => {
     const { value } = e.currentTarget;
     const validValue = value.trim().toLowerCase();
-    this.setState({ searchValue: validValue });
+    setSearchValue(validValue);
   };
 
-  onSearchImage = e => {
+  const onSearchImage = e => {
     e.preventDefault();
-    const { searchValue } = this.state;
 
     if (!searchValue) {
       return toast.error('Enter text for search.');
     }
 
-    this.props.onSubmit(searchValue);
+    onSubmit(searchValue);
 
-    this.setState({ searchValue: '' });
+    setSearchValue('');
   };
 
-  render() {
-    const { searchValue } = this.state;
-    return (
-      <SearchForm onSubmit={this.onSearchImage}>
-        <SearchButton type="submit">
-          <BsSearch size="16" />
-        </SearchButton>
-        <SearchInput
-          id="input"
-          type="text"
-          autoComplete="off"
-          autoFocus
-          onChange={this.onChangeInput}
-          placeholder="Search images and photos"
-          value={searchValue}
-        ></SearchInput>
-      </SearchForm>
-    );
-  }
-}
+  return (
+    <SearchForm onSubmit={onSearchImage}>
+      <SearchButton type="submit">
+        <BsSearch size="16" />
+      </SearchButton>
+      <SearchInput
+        id="input"
+        type="text"
+        autoComplete="off"
+        autoFocus
+        onChange={onChangeInput}
+        placeholder="Search images and photos"
+        value={searchValue}
+      ></SearchInput>
+    </SearchForm>
+  );
+};
+
+Searchbar.propType = {
+  onSubmit: PropTypes.func.isRequired,
+};
